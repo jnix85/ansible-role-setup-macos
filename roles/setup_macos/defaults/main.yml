@@ -1,0 +1,58 @@
+---
+# Defaults for setup_macos
+
+setup_macos_user: "{{ ansible_user_id | default(ansible_env.USER) }}"
+setup_macos_user_home: "{{ ansible_env.HOME }}"
+
+# Developer Directories
+setup_macos_developer_directories:
+  - "{{ setup_macos_user_home }}/src"
+  - "{{ setup_macos_user_home }}/bin"
+  - "{{ setup_macos_user_home }}/.local/bin"
+
+# Git Global Configuration
+setup_macos_git_user_name: "Jason Parks"
+setup_macos_git_user_email: "2917618+jnix85@users.noreply.github.com"
+setup_macos_git_default_branch: "main"
+
+# Homebrew Bundle Management
+setup_macos_homebrew_install: true
+setup_macos_brew_taps: []
+setup_macos_brew_packages:
+  - chezmoi
+  - dockutil
+  - uv
+  - git
+  - git-lfs
+  - btop
+  - macmon
+  - rtk
+setup_macos_brew_casks: []
+setup_macos_mas_apps: []
+
+# macOS System Preferences: Finder
+setup_macos_finder_show_hidden: true
+setup_macos_finder_show_extensions: true
+setup_macos_finder_show_pathbar: true
+setup_macos_finder_show_statusbar: true
+setup_macos_finder_view_style: "Nlsv"
+
+# macOS System Preferences: Global
+setup_macos_dark_mode: true
+setup_macos_key_repeat: 2
+setup_macos_initial_key_repeat: 15
+
+# macOS System Preferences: Dock
+setup_macos_dock_orientation: "bottom"
+setup_macos_dock_tilesize: 48
+setup_macos_dock_autohide: false
+setup_macos_dock_show_recents: false
+
+# Dock Applications (via dockutil)
+setup_macos_dock_wipe: false
+setup_macos_dock_apps: []
+
+# Dotfiles Synchronization (via chezmoi)
+setup_macos_chezmoi_enabled: true
+setup_macos_chezmoi_repo: "git@github.com:jnix85/chezmoi.git"
+setup_macos_chezmoi_fallback_url: "https://github.com/jnix85/chezmoi.git"

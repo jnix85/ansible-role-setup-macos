@@ -1,0 +1,23 @@
+---
+- name: Verify Homebrew executable
+  ansible.builtin.stat:
+    path: "{{ setup_macos_homebrew_bin }}"
+  register: setup_macos_brew_stat
+
+- name: Fail if Homebrew is missing
+  ansible.builtin.fail:
+    msg: "Homebrew was not found at {{ setup_macos_homebrew_bin }}. Please run ./bootstrap.sh first."
+  when: not setup_macos_brew_stat.stat.exists
+
+- name: Render Brewfile template
+  ansible.builtin.template:
+    src: Brewfile.j2
+    dest: "{{ setup_macos_user_home }}/.Brewfile"
+    mode: "0644"
+  register: setup_macos_brewfile_render
+
+- name: Execute Homebrew Bundle
+  community.general.homebrew_bundle:
+    file: "{{ setup_macos_user_home }}/.Brewfile"
+    state: present
+  when: setup_macos_brewfile_render.changed or (setup_macos_force_brew_bundle | default(false) | bool)

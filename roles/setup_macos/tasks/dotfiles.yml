@@ -1,0 +1,40 @@
+---
+- name: Check if chezmoi is installed
+  ansible.builtin.command: command -v chezmoi
+  register: setup_macos_chezmoi_check
+  changed_when: false
+  failed_when: false
+
+- name: Fail if chezmoi binary is missing
+  ansible.builtin.fail:
+    msg: "chezmoi is not installed. Ensure chezmoi is listed in setup_macos_brew_packages and Homebrew tasks run first."
+  when: setup_macos_chezmoi_check.rc != 0
+
+- name: Check if chezmoi source directory exists
+  ansible.builtin.stat:
+    path: "{{ setup_macos_user_home }}/.local/share/chezmoi"
+  register: setup_macos_chezmoi_stat
+
+- name: Initialize and apply chezmoi dotfiles (primary repo)
+  ansible.builtin.command: "chezmoi init --apply {{ setup_macos_chezmoi_repo }}"
+  when:
+    - not setup_macos_chezmoi_stat.stat.exists
+    - setup_macos_chezmoi_repo | length > 0
+  register: setup_macos_chezmoi_init
+  failed_when: false
+  changed_when: true
+
+- name: Fallback to HTTPS chezmoi init if primary SSH init failed
+  ansible.builtin.command: "chezmoi init --apply {{ setup_macos_chezmoi_fallback_url }}"
+  when:
+    - not setup_macos_chezmoi_stat.stat.exists
+    - setup_macos_chezmoi_init.rc is defined
+    - setup_macos_chezmoi_init.rc != 0
+    - setup_macos_chezmoi_fallback_url | default('') | length > 0
+  changed_when: true
+
+- name: Apply chezmoi dotfiles updates
+  ansible.builtin.command: chezmoi apply
+  when: setup_macos_chezmoi_stat.stat.exists
+  changed_when: true
+

@@ -1,0 +1,25 @@
+---
+- name: Trackpad - Enable tap to click (Bluetooth Multitouch)
+  community.general.osx_defaults:
+    domain: com.apple.driver.AppleBluetoothMultitouch.trackpad
+    key: Clicking
+    type: bool
+    value: true
+    state: present
+
+- name: Trackpad - Enable tap to click (Built-in Trackpad)
+  community.general.osx_defaults:
+    domain: com.apple.AppleMultitouchTrackpad
+    key: Clicking
+    type: bool
+    value: true
+    state: present
+
+- name: Trackpad - Global tap behavior
+  community.general.osx_defaults:
+    domain: NSGlobalDomain
+    key: com.apple.mouse.tapBehavior
+    type: int
+    value: 1
+    state: present
+

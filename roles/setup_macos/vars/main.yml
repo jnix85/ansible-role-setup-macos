@@ -1,0 +1,5 @@
+---
+# Internal variables for setup_macos
+setup_macos_is_apple_silicon: "{{ ansible_architecture == 'arm64' }}"
+setup_macos_homebrew_prefix: "{{ '/opt/homebrew' if (ansible_architecture == 'arm64') else '/usr/local' }}"
+setup_macos_homebrew_bin: "{{ setup_macos_homebrew_prefix }}/bin/brew"

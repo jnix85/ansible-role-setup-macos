@@ -1,0 +1,4 @@
+---
+# Group variables for macOS targets
+setup_macos_user: "{{ ansible_user_id }}"
+setup_macos_user_home: "{{ ansible_env.HOME }}"

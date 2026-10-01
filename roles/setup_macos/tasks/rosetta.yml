@@ -1,0 +1,10 @@
+---
+- name: Check if Rosetta 2 is installed
+  ansible.builtin.stat:
+    path: /Library/Apple/usr/share/rosetta/rosetta
+  register: setup_macos_rosetta_stat
+
+- name: Install Rosetta 2 on Apple Silicon
+  ansible.builtin.command: /usr/sbin/softwareupdate --install-rosetta --agree-to-license
+  when: not setup_macos_rosetta_stat.stat.exists
+  changed_when: true

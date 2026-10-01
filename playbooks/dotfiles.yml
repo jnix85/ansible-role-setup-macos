@@ -1,0 +1,10 @@
+---
+- name: Synchronize dotfiles via chezmoi
+  hosts: macos
+  gather_facts: true
+  roles:
+    - role: setup_macos
+      tags:
+        - dotfiles
+        - chezmoi
+

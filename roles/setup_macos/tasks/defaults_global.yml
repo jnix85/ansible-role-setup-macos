@@ -1,0 +1,58 @@
+---
+- name: Global - Set interface style to Dark Mode
+  community.general.osx_defaults:
+    domain: NSGlobalDomain
+    key: AppleInterfaceStyle
+    type: string
+    value: Dark
+    state: present
+  when: setup_macos_dark_mode | default(true) | bool
+
+- name: Global - Fast keyboard repeat rate
+  community.general.osx_defaults:
+    domain: NSGlobalDomain
+    key: KeyRepeat
+    type: int
+    value: "{{ setup_macos_key_repeat | default(2) }}"
+    state: present
+
+- name: Global - Short delay until key repeat
+  community.general.osx_defaults:
+    domain: NSGlobalDomain
+    key: InitialKeyRepeat
+    type: int
+    value: "{{ setup_macos_initial_key_repeat | default(15) }}"
+    state: present
+
+- name: Global - Disable press-and-hold in favor of key repeat
+  community.general.osx_defaults:
+    domain: NSGlobalDomain
+    key: ApplePressAndHoldEnabled
+    type: bool
+    value: false
+    state: present
+
+- name: Global - Expand save panel by default
+  community.general.osx_defaults:
+    domain: NSGlobalDomain
+    key: NSNavPanelExpandedStateForSaveMode
+    type: bool
+    value: true
+    state: present
+
+- name: Global - Expand print panel by default
+  community.general.osx_defaults:
+    domain: NSGlobalDomain
+    key: PMPrintingExpandedStateForPrint
+    type: bool
+    value: true
+    state: present
+
+- name: Global - Save new documents to local disk by default (not iCloud)
+  community.general.osx_defaults:
+    domain: NSGlobalDomain
+    key: NSDocumentSaveNewDocumentsToCloud
+    type: bool
+    value: false
+    state: present
+

@@ -1,0 +1,25 @@
+---
+- name: Apply Finder preferences
+  ansible.builtin.include_tasks: defaults_finder.yml
+  tags:
+    - finder
+
+- name: Apply Dock preferences
+  ansible.builtin.include_tasks: defaults_dock.yml
+  tags:
+    - dock_prefs
+
+- name: Apply Global system preferences
+  ansible.builtin.include_tasks: defaults_global.yml
+  tags:
+    - global_prefs
+
+- name: Apply Trackpad preferences
+  ansible.builtin.include_tasks: defaults_trackpad.yml
+  tags:
+    - trackpad
+
+- name: Apply Screensaver & Security preferences
+  ansible.builtin.include_tasks: defaults_screensaver.yml
+  tags:
+    - screensaver

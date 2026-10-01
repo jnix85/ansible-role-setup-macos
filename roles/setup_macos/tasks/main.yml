@@ -1,0 +1,50 @@
+---
+- name: Validate target operating system
+  ansible.builtin.assert:
+    that:
+      - ansible_os_family == 'Darwin'
+    fail_msg: "This role only supports macOS (Darwin), but detected {{ ansible_os_family }}."
+
+- name: Check and install Rosetta 2
+  ansible.builtin.include_tasks: rosetta.yml
+  when:
+    - setup_macos_is_apple_silicon
+    - setup_macos_rosetta_install | bool
+  tags:
+    - rosetta
+
+- name: Configure developer directories
+  ansible.builtin.include_tasks: developer.yml
+  tags:
+    - developer
+
+- name: Configure Homebrew packages and casks
+- name: Configure Git globals
+  ansible.builtin.include_tasks: git.yml
+  tags:
+    - git
+
+- name: Configure Homebrew packages and applications
+  ansible.builtin.include_tasks: homebrew.yml
+  when: setup_macos_homebrew_install | bool
+  when: setup_macos_homebrew_install | default(true) | bool
+  tags:
+    - packages
+    - homebrew
+
+- name: Apply macOS system preferences
+  ansible.builtin.include_tasks: defaults.yml
+  tags:
+    - defaults
+
+- name: Configure macOS Dock
+  ansible.builtin.include_tasks: dock.yml
+  tags:
+    - dock
+
+- name: Synchronize dotfiles via chezmoi
+  ansible.builtin.include_tasks: dotfiles.yml
+  when: setup_macos_chezmoi_enabled | default(true) | bool
+  tags:
+    - dotfiles
+    - chezmoi

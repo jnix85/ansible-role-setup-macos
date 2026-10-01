@@ -1,0 +1,25 @@
+---
+- name: Check if dockutil is installed
+  ansible.builtin.command: command -v dockutil
+  register: setup_macos_dockutil_check
+  changed_when: false
+  failed_when: false
+
+- name: Manage Dock pinned applications via dockutil
+  when:
+    - setup_macos_dockutil_check.rc == 0
+    - setup_macos_dock_apps | length > 0
+  block:
+    - name: Wipe default Dock items if requested
+      ansible.builtin.command: dockutil --remove all --no-restart
+      when: setup_macos_dock_wipe | default(false) | bool
+      changed_when: true
+      notify: Restart Dock
+
+    - name: Add pinned applications to Dock
+      ansible.builtin.command: "dockutil --add '{{ item }}' --no-restart"
+      loop: "{{ setup_macos_dock_apps }}"
+      register: setup_macos_dockutil_add
+      changed_when: "'added' in setup_macos_dockutil_add.stdout or setup_macos_dockutil_add.rc == 0"
+      failed_when: false
+      notify: Restart Dock

@@ -1,0 +1,71 @@
+---
+- name: Finder - Show hidden files by default
+  community.general.osx_defaults:
+    domain: com.apple.finder
+    key: AppleShowAllFiles
+    type: bool
+    value: "{{ setup_macos_finder_show_hidden | default(true) }}"
+    state: present
+  notify: Restart Finder
+
+- name: Finder - Show all filename extensions
+  community.general.osx_defaults:
+    domain: NSGlobalDomain
+    key: AppleShowAllExtensions
+    type: bool
+    value: "{{ setup_macos_finder_show_extensions | default(true) }}"
+    state: present
+  notify: Restart Finder
+
+- name: Finder - Show path bar
+  community.general.osx_defaults:
+    domain: com.apple.finder
+    key: ShowPathbar
+    type: bool
+    value: "{{ setup_macos_finder_show_pathbar | default(true) }}"
+    state: present
+  notify: Restart Finder
+
+- name: Finder - Show status bar
+  community.general.osx_defaults:
+    domain: com.apple.finder
+    key: ShowStatusBar
+    type: bool
+    value: "{{ setup_macos_finder_show_statusbar | default(true) }}"
+    state: present
+  notify: Restart Finder
+
+- name: Finder - Preferred view style (List view)
+  community.general.osx_defaults:
+    domain: com.apple.finder
+    key: FXPreferredViewStyle
+    type: string
+    value: "{{ setup_macos_finder_view_style | default('Nlsv') }}"
+    state: present
+  notify: Restart Finder
+
+- name: Finder - Disable file extension change warning
+  community.general.osx_defaults:
+    domain: com.apple.finder
+    key: FXEnableExtensionChangeWarning
+    type: bool
+    value: false
+    state: present
+  notify: Restart Finder
+
+- name: DesktopServices - Avoid creating .DS_Store on network volumes
+  community.general.osx_defaults:
+    domain: com.apple.desktopservices
+    key: DSDontWriteNetworkStores
+    type: bool
+    value: true
+    state: present
+
+- name: DesktopServices - Avoid creating .DS_Store on USB volumes
+  community.general.osx_defaults:
+    domain: com.apple.desktopservices
+    key: DSDontWriteUSBStores
+    type: bool
+    value: true
+    state: present
+

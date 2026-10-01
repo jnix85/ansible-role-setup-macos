@@ -1,0 +1,7 @@
+---
+- name: Ensure developer directories exist
+  ansible.builtin.file:
+    path: "{{ item | expanduser }}"
+    state: directory
+    mode: "0755"
+  loop: "{{ setup_macos_developer_directories }}"

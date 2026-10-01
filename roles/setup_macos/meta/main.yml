@@ -1,0 +1,21 @@
+---
+galaxy_info:
+  role_name: setup_macos
+  namespace: clawduino
+  author: Jason Parks
+  description: Standalone Ansible role for provisioning and configuring macOS workstations (Homebrew, system defaults, dock, developer environment).
+  company: clawduino
+  license: MIT
+  min_ansible_version: "2.15"
+  platforms:
+    - name: MacOSX
+      versions:
+        - all
+  galaxy_tags:
+    - macos
+    - workstation
+    - homebrew
+    - defaults
+    - system
+
+dependencies: []

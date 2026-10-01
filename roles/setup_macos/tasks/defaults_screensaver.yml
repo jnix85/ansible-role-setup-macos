@@ -1,0 +1,17 @@
+---
+- name: Screensaver - Require password immediately after sleep or screen saver begins
+  community.general.osx_defaults:
+    domain: com.apple.screensaver
+    key: askForPassword
+    type: int
+    value: 1
+    state: present
+
+- name: Screensaver - Set password delay to 0 seconds
+  community.general.osx_defaults:
+    domain: com.apple.screensaver
+    key: askForPasswordDelay
+    type: int
+    value: 0
+    state: present
+
