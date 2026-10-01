@@ -18,7 +18,6 @@
   tags:
     - developer
 
-- name: Configure Homebrew packages and casks
 - name: Configure Git globals
   ansible.builtin.include_tasks: git.yml
   tags:
@@ -26,11 +25,11 @@
 
 - name: Configure Homebrew packages and applications
   ansible.builtin.include_tasks: homebrew.yml
-  when: setup_macos_homebrew_install | bool
   when: setup_macos_homebrew_install | default(true) | bool
   tags:
     - packages
     - homebrew
+
 
 - name: Apply macOS system preferences
   ansible.builtin.include_tasks: defaults.yml
